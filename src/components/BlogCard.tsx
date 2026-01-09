@@ -1,6 +1,5 @@
 import { Link } from "react-router-dom";
 import { format } from "date-fns";
-import { Calendar, ArrowRight } from "lucide-react";
 import type { Post } from "@/hooks/usePosts";
 
 interface BlogCardProps {
@@ -9,45 +8,32 @@ interface BlogCardProps {
 
 export const BlogCard = ({ post }: BlogCardProps) => {
   return (
-    <article className="group border-b border-border pb-8 last:border-0">
+    <article className="group">
       <Link to={`/blog/${post.id}`} className="block">
-        <div className="flex flex-col md:flex-row gap-6">
-          {/* Featured Image */}
-          {post.image_url && (
-            <div className="md:w-64 flex-shrink-0">
-              <div className="aspect-video md:aspect-[4/3] rounded-lg overflow-hidden bg-muted">
-                <img
-                  src={post.image_url}
-                  alt={post.title}
-                  className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
-                />
-              </div>
+        {/* Featured Image */}
+        <div className="aspect-[4/3] rounded-lg overflow-hidden bg-muted mb-4">
+          {post.image_url ? (
+            <img
+              src={post.image_url}
+              alt={post.title}
+              className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
+            />
+          ) : (
+            <div className="w-full h-full bg-gradient-to-br from-primary/20 to-accent/20 flex items-center justify-center">
+              <span className="text-4xl">📝</span>
             </div>
           )}
-          
-          {/* Content */}
-          <div className="flex-1">
-            <div className="flex items-center gap-2 text-muted-foreground text-sm mb-3">
-              <Calendar className="w-4 h-4" />
-              <time dateTime={post.created_at}>
-                {format(new Date(post.created_at), "MMMM d, yyyy")}
-              </time>
-            </div>
-            
-            <h2 className="text-xl md:text-2xl font-semibold text-foreground mb-3 group-hover:text-primary transition-colors">
-              {post.title}
-            </h2>
-            
-            <p className="text-muted-foreground leading-relaxed mb-4 line-clamp-2 md:line-clamp-3">
-              {post.summary}
-            </p>
-            
-            <span className="inline-flex items-center gap-2 text-primary font-medium text-sm group-hover:gap-3 transition-all">
-              Read more
-              <ArrowRight className="w-4 h-4" />
-            </span>
-          </div>
         </div>
+        
+        {/* Title */}
+        <h2 className="text-lg font-semibold text-foreground mb-2 group-hover:text-primary transition-colors line-clamp-2">
+          {post.title}
+        </h2>
+        
+        {/* Author/Date */}
+        <p className="text-sm text-muted-foreground">
+          Prince Fiebor • {format(new Date(post.created_at), "MMM d, yyyy")}
+        </p>
       </Link>
     </article>
   );

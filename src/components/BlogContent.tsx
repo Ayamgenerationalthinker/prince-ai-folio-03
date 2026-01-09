@@ -3,12 +3,12 @@ interface BlogContentProps {
 }
 
 export const BlogContent = ({ content }: BlogContentProps) => {
-  // Simple markdown-like rendering for headings, paragraphs, code blocks, and lists
   const renderContent = (text: string) => {
     const lines = text.split("\n");
     const elements: JSX.Element[] = [];
     let inCodeBlock = false;
     let codeBlockContent: string[] = [];
+    let codeLanguage = "";
     let listItems: string[] = [];
     let listType: "ul" | "ol" | null = null;
 
@@ -18,10 +18,10 @@ export const BlogContent = ({ content }: BlogContentProps) => {
         elements.push(
           <ListTag
             key={elements.length}
-            className={`my-4 ${listType === "ul" ? "list-disc" : "list-decimal"} list-inside space-y-2 text-foreground/90`}
+            className={`my-6 space-y-3 ${listType === "ul" ? "list-disc" : "list-decimal"} list-outside ml-6`}
           >
             {listItems.map((item, i) => (
-              <li key={i} className="leading-relaxed">
+              <li key={i} className="text-foreground/90 text-lg leading-relaxed pl-2">
                 {item}
               </li>
             ))}
@@ -37,19 +37,27 @@ export const BlogContent = ({ content }: BlogContentProps) => {
       if (line.startsWith("```")) {
         if (inCodeBlock) {
           elements.push(
-            <pre
-              key={elements.length}
-              className="my-6 p-4 bg-muted rounded-lg overflow-x-auto font-mono text-sm"
-            >
-              <code className="text-foreground/90">
-                {codeBlockContent.join("\n")}
-              </code>
-            </pre>
+            <div key={elements.length} className="my-8">
+              {codeLanguage && (
+                <div className="bg-muted/80 px-4 py-2 rounded-t-lg border-b border-border">
+                  <span className="text-xs font-mono text-muted-foreground uppercase">
+                    {codeLanguage}
+                  </span>
+                </div>
+              )}
+              <pre className={`p-4 bg-muted overflow-x-auto font-mono text-sm ${codeLanguage ? 'rounded-b-lg' : 'rounded-lg'}`}>
+                <code className="text-foreground/90">
+                  {codeBlockContent.join("\n")}
+                </code>
+              </pre>
+            </div>
           );
           codeBlockContent = [];
+          codeLanguage = "";
           inCodeBlock = false;
         } else {
           flushList();
+          codeLanguage = line.slice(3).trim();
           inCodeBlock = true;
         }
         return;
@@ -85,10 +93,10 @@ export const BlogContent = ({ content }: BlogContentProps) => {
       // Flush list before other elements
       flushList();
 
-      // Headings
+      // Headings - SitePoint style with clear hierarchy
       if (line.startsWith("### ")) {
         elements.push(
-          <h3 key={index} className="text-xl font-semibold mt-8 mb-4 text-foreground">
+          <h3 key={index} className="text-xl font-bold mt-10 mb-4 text-foreground">
             {line.slice(4)}
           </h3>
         );
@@ -97,7 +105,7 @@ export const BlogContent = ({ content }: BlogContentProps) => {
 
       if (line.startsWith("## ")) {
         elements.push(
-          <h2 key={index} className="text-2xl font-semibold mt-10 mb-4 text-foreground">
+          <h2 key={index} className="text-2xl font-bold mt-12 mb-6 text-foreground">
             {line.slice(3)}
           </h2>
         );
@@ -106,22 +114,24 @@ export const BlogContent = ({ content }: BlogContentProps) => {
 
       if (line.startsWith("# ")) {
         elements.push(
-          <h1 key={index} className="text-3xl font-bold mt-10 mb-6 text-foreground">
+          <h1 key={index} className="text-3xl font-bold mt-12 mb-6 text-foreground">
             {line.slice(2)}
           </h1>
         );
         return;
       }
 
-      // Inline code
-      const processedLine = line.replace(
-        /`([^`]+)`/g,
-        '<code class="px-1.5 py-0.5 bg-muted rounded text-sm font-mono">$1</code>'
-      );
+      // Process inline formatting
+      let processedLine = line
+        // Bold
+        .replace(/\*\*([^*]+)\*\*/g, '<strong class="font-semibold text-foreground">$1</strong>')
+        // Italic
+        .replace(/\*([^*]+)\*/g, '<em>$1</em>')
+        // Inline code
+        .replace(/`([^`]+)`/g, '<code class="px-1.5 py-0.5 bg-muted rounded text-sm font-mono text-primary">$1</code>');
 
       // Empty lines create spacing
       if (line.trim() === "") {
-        elements.push(<div key={index} className="h-4" />);
         return;
       }
 
@@ -129,7 +139,7 @@ export const BlogContent = ({ content }: BlogContentProps) => {
       elements.push(
         <p
           key={index}
-          className="my-4 leading-relaxed text-foreground/90 text-lg"
+          className="my-5 leading-relaxed text-foreground/90 text-lg"
           dangerouslySetInnerHTML={{ __html: processedLine }}
         />
       );
@@ -142,7 +152,7 @@ export const BlogContent = ({ content }: BlogContentProps) => {
   };
 
   return (
-    <div className="prose prose-lg max-w-none">
+    <div className="prose-custom">
       {renderContent(content)}
     </div>
   );
