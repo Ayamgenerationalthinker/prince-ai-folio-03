@@ -8,6 +8,7 @@ export interface Post {
   summary: string;
   content: string;
   created_at: string;
+  image_url: string | null;
   published: boolean;
 }
 
