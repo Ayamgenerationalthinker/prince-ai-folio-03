@@ -1,8 +1,18 @@
+import DOMPurify from 'dompurify';
+
 interface BlogContentProps {
   content: string;
 }
 
 export const BlogContent = ({ content }: BlogContentProps) => {
+  // Configure DOMPurify to allow safe formatting tags only
+  const sanitize = (html: string): string => {
+    return DOMPurify.sanitize(html, {
+      ALLOWED_TAGS: ['strong', 'em', 'code', 'span'],
+      ALLOWED_ATTR: ['class'],
+    });
+  };
+
   const renderContent = (text: string) => {
     const lines = text.split("\n");
     const elements: JSX.Element[] = [];
@@ -135,12 +145,12 @@ export const BlogContent = ({ content }: BlogContentProps) => {
         return;
       }
 
-      // Regular paragraphs
+      // Regular paragraphs - sanitize HTML before rendering
       elements.push(
         <p
           key={index}
           className="my-5 leading-relaxed text-foreground/90 text-lg"
-          dangerouslySetInnerHTML={{ __html: processedLine }}
+          dangerouslySetInnerHTML={{ __html: sanitize(processedLine) }}
         />
       );
     });
