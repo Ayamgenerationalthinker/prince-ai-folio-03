@@ -1,7 +1,7 @@
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
-import { ExternalLink, Github, Brain, Database, Globe, Users, BookOpen, TrendingUp, PenTool, Target, Lightbulb } from "lucide-react";
+import { ExternalLink, Github, Brain, Database, Users, TrendingUp } from "lucide-react";
 
 export const Projects = () => {
   const projects = [
@@ -63,39 +63,6 @@ export const Projects = () => {
       links: {
         demo: "https://agt-tech-qyn4.vercel.app/",
         github: "#"
-      }
-    },
-    {
-      title: "My AI/ML Journey Blog Post",
-      description: "Documenting my path as a Level 300 Computer Science student at Ghana Communication Technology University, sharing insights into AI/ML learning experiences.",
-      icon: PenTool,
-      tags: ["AI/ML", "Education", "Blog", "Personal Journey"],
-      category: "Blog Post",
-      status: "Published",
-      links: {
-        demo: "https://ayamgenerationalth.wixsite.com/agt-tech/post/my-ai-ml-journey-documenting-my-path-as-a-level-300-computer-science-student-at-ghana-communication"
-      }
-    },
-    {
-      title: "How I Bombed My First Two Interviews",
-      description: "A candid reflection on my first job interview experiences, the lessons learned from failure, and how setbacks became stepping stones to growth.",
-      icon: Target,
-      tags: ["Career", "Interviews", "Personal Growth", "Lessons"],
-      category: "Blog Post", 
-      status: "Published",
-      links: {
-        demo: "https://ayamgenerationalth.wixsite.com/agt-tech/post/how-i-bombed-my-first-two-interviews-and-what-they-taught-me"
-      }
-    },
-    {
-      title: "From Two Rejections to Huawei",
-      description: "How I turned failure into fuel and secured an opportunity at Huawei after facing rejections. A story of persistence, growth, and preparation.",
-      icon: Lightbulb,
-      tags: ["Career", "Success Story", "Huawei", "Persistence"],
-      category: "Blog Post",
-      status: "Published", 
-      links: {
-        demo: "https://ayamgenerationalth.wixsite.com/agt-tech/post/from-two-rejections-to-huawei-how-i-turned-failure-into-fuel"
       }
     }
   ];
@@ -176,12 +143,6 @@ export const Projects = () => {
                     <Button variant="outline" size="sm" className="flex-1" onClick={() => window.open(project.links.demo, '_blank')}>
                       <ExternalLink className="w-4 h-4 mr-2" />
                       Demo
-                    </Button>
-                  )}
-                  {(project.links as any).youtube && (project.links as any).youtube !== "#" && (
-                    <Button variant="outline" size="sm" className="flex-1" onClick={() => window.open((project.links as any).youtube, '_blank')}>
-                      <ExternalLink className="w-4 h-4 mr-2" />
-                      Watch
                     </Button>
                   )}
                 </div>

@@ -2,6 +2,7 @@ import { useParams, Link, useNavigate } from "react-router-dom";
 import { Navigation } from "@/components/Navigation";
 import { Footer } from "@/components/Footer";
 import { BlogContent } from "@/components/BlogContent";
+import { ShareButtons } from "@/components/ShareButtons";
 import { usePost } from "@/hooks/usePosts";
 import { ArrowLeft, Calendar } from "lucide-react";
 import { format } from "date-fns";
@@ -76,22 +77,27 @@ const BlogPost = () => {
                   {post.title}
                 </h1>
 
-                {/* Author Info */}
-                <div className="flex items-center gap-4 mb-8 pb-6 border-b border-border">
-                  <img
-                    src="/images/profile-picture.jpg"
-                    alt="Prince Fiebor"
-                    className="w-12 h-12 rounded-full object-cover"
-                  />
-                  <div>
-                    <p className="font-semibold text-foreground">Prince Fiebor</p>
-                    <div className="flex items-center gap-2 text-sm text-muted-foreground">
-                      <Calendar className="w-3.5 h-3.5" />
-                      <time dateTime={post.created_at}>
-                        {format(new Date(post.created_at), "MMMM d, yyyy")}
-                      </time>
+                {/* Author Info & Share */}
+                <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 mb-8 pb-6 border-b border-border">
+                  <div className="flex items-center gap-4">
+                    <img
+                      src="/images/profile-picture.jpg"
+                      alt="Prince Fiebor"
+                      className="w-12 h-12 rounded-full object-cover"
+                    />
+                    <div>
+                      <p className="font-semibold text-foreground">Prince Ofosu Fiebor</p>
+                      <div className="flex items-center gap-2 text-sm text-muted-foreground">
+                        <Calendar className="w-3.5 h-3.5" />
+                        <time dateTime={post.created_at}>
+                          {format(new Date(post.created_at), "MMMM d, yyyy")}
+                        </time>
+                      </div>
                     </div>
                   </div>
+                  
+                  {/* Share Buttons */}
+                  <ShareButtons title={post.title} />
                 </div>
 
                 {/* Featured Image */}
@@ -105,23 +111,21 @@ const BlogPost = () => {
                   </div>
                 )}
 
-                {/* Summary as Lead */}
-                <p className="text-xl text-muted-foreground leading-relaxed mb-10 font-medium">
-                  {post.summary}
-                </p>
-
                 {/* Content */}
                 <BlogContent content={post.content} />
 
-                {/* Back to Blog */}
-                <div className="mt-16 pt-8 border-t border-border">
-                  <Link
-                    to="/blog"
-                    className="inline-flex items-center gap-2 text-primary hover:underline font-medium"
-                  >
-                    <ArrowLeft className="w-4 h-4" />
-                    Back to all articles
-                  </Link>
+                {/* Bottom Share */}
+                <div className="mt-12 pt-8 border-t border-border">
+                  <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
+                    <Link
+                      to="/blog"
+                      className="inline-flex items-center gap-2 text-primary hover:underline font-medium"
+                    >
+                      <ArrowLeft className="w-4 h-4" />
+                      Back to all articles
+                    </Link>
+                    <ShareButtons title={post.title} />
+                  </div>
                 </div>
               </>
             ) : null}
