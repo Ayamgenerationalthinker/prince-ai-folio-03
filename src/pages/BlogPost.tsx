@@ -54,6 +54,17 @@ const BlogPost = () => {
               </div>
             ) : post ? (
               <>
+                {/* Featured Image */}
+                {post.image_url && (
+                  <div className="aspect-video rounded-xl overflow-hidden bg-muted mb-8">
+                    <img
+                      src={post.image_url}
+                      alt={post.title}
+                      className="w-full h-full object-cover"
+                    />
+                  </div>
+                )}
+
                 {/* Header */}
                 <header className="mb-12">
                   <div className="flex items-center gap-2 text-muted-foreground text-sm mb-4">
