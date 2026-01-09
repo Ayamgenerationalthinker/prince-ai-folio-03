@@ -1,4 +1,5 @@
 import { useState, useEffect } from "react";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { Menu, X, Brain } from "lucide-react";
 import { ThemeToggle } from "./ThemeToggle";
@@ -6,6 +7,9 @@ import { ThemeToggle } from "./ThemeToggle";
 export const Navigation = () => {
   const [isOpen, setIsOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
+  const location = useLocation();
+  const navigate = useNavigate();
+  const isHomePage = location.pathname === "/";
 
   useEffect(() => {
     const handleScroll = () => {
@@ -16,16 +20,37 @@ export const Navigation = () => {
   }, []);
 
   const navItems = [
-    { name: "About", href: "#about" },
-    { name: "Projects", href: "#projects" },
-    { name: "Experience", href: "#experience" },
-    { name: "Contact", href: "#contact" },
+    { name: "About", href: "#about", isSection: true },
+    { name: "Projects", href: "#projects", isSection: true },
+    { name: "Experience", href: "#experience", isSection: true },
+    { name: "Blog", href: "/blog", isSection: false },
+    { name: "Contact", href: "#contact", isSection: true },
   ];
 
-  const scrollToSection = (href: string) => {
-    const element = document.querySelector(href);
-    if (element) {
-      element.scrollIntoView({ behavior: "smooth" });
+  const handleNavClick = (item: { href: string; isSection: boolean }) => {
+    if (item.isSection) {
+      if (isHomePage) {
+        const element = document.querySelector(item.href);
+        if (element) {
+          element.scrollIntoView({ behavior: "smooth" });
+        }
+      } else {
+        navigate("/" + item.href);
+      }
+    } else {
+      navigate(item.href);
+    }
+    setIsOpen(false);
+  };
+
+  const handleContactClick = () => {
+    if (isHomePage) {
+      const element = document.querySelector("#contact");
+      if (element) {
+        element.scrollIntoView({ behavior: "smooth" });
+      }
+    } else {
+      navigate("/#contact");
     }
     setIsOpen(false);
   };
@@ -37,19 +62,19 @@ export const Navigation = () => {
       <div className="container mx-auto px-6">
         <div className="flex items-center justify-between h-16">
           {/* Logo */}
-          <div className="flex items-center gap-2">
+          <Link to="/" className="flex items-center gap-2">
             <div className="w-8 h-8 bg-gradient-primary rounded-lg flex items-center justify-center">
               <Brain className="w-5 h-5 text-white" />
             </div>
             <span className="font-bold text-lg">Prince Fiebor</span>
-          </div>
+          </Link>
 
           {/* Desktop Navigation */}
           <div className="hidden md:flex items-center gap-8">
             {navItems.map((item) => (
               <button
                 key={item.name}
-                onClick={() => scrollToSection(item.href)}
+                onClick={() => handleNavClick(item)}
                 className="text-muted-foreground hover:text-foreground transition-colors font-medium"
               >
                 {item.name}
@@ -59,7 +84,7 @@ export const Navigation = () => {
             <Button 
               size="sm" 
               className="glow-effect"
-              onClick={() => scrollToSection("#contact")}
+              onClick={handleContactClick}
             >
               Let's Connect
             </Button>
@@ -81,7 +106,7 @@ export const Navigation = () => {
               {navItems.map((item) => (
                 <button
                   key={item.name}
-                  onClick={() => scrollToSection(item.href)}
+                  onClick={() => handleNavClick(item)}
                   className="block w-full text-left text-muted-foreground hover:text-foreground transition-colors font-medium py-2"
                 >
                   {item.name}
@@ -92,7 +117,7 @@ export const Navigation = () => {
                 <Button 
                   size="sm" 
                   className="flex-1 ml-4"
-                  onClick={() => scrollToSection("#contact")}
+                  onClick={handleContactClick}
                 >
                   Let's Connect
                 </Button>
