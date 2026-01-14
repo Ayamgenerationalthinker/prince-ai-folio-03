@@ -5,11 +5,11 @@ interface BlogContentProps {
 }
 
 export const BlogContent = ({ content }: BlogContentProps) => {
-  // Configure DOMPurify to allow safe formatting tags only
+  // Configure DOMPurify to allow safe formatting tags and links
   const sanitize = (html: string): string => {
     return DOMPurify.sanitize(html, {
-      ALLOWED_TAGS: ['strong', 'em', 'code', 'span'],
-      ALLOWED_ATTR: ['class'],
+      ALLOWED_TAGS: ['strong', 'em', 'code', 'span', 'a'],
+      ALLOWED_ATTR: ['class', 'href', 'target', 'rel'],
     });
   };
 
@@ -21,6 +21,40 @@ export const BlogContent = ({ content }: BlogContentProps) => {
     let codeLanguage = "";
     let listItems: string[] = [];
     let listType: "ul" | "ol" | null = null;
+
+    // Helper to render images
+    const renderImage = (line: string, index: number) => {
+      // Match markdown image syntax: ![alt](url)
+      const imageMatch = line.match(/!\[([^\]]*)\]\(([^)]+)\)/);
+      if (imageMatch) {
+        const [, alt, src] = imageMatch;
+        return (
+          <figure key={index} className="my-8">
+            <img 
+              src={src} 
+              alt={alt} 
+              className="w-full rounded-lg shadow-md"
+              loading="lazy"
+            />
+            {alt && (
+              <figcaption className="text-center text-sm text-muted-foreground mt-3 italic">
+                {alt}
+              </figcaption>
+            )}
+          </figure>
+        );
+      }
+      return null;
+    };
+
+    // Helper to render links in text
+    const processLinks = (text: string): string => {
+      // Convert markdown links [text](url) to HTML
+      return text.replace(
+        /\[([^\]]+)\]\(([^)]+)\)/g,
+        '<a href="$2" target="_blank" rel="noopener noreferrer" class="text-primary hover:underline font-medium">$1</a>'
+      );
+    };
 
     const flushList = () => {
       if (listItems.length > 0 && listType) {
@@ -103,6 +137,13 @@ export const BlogContent = ({ content }: BlogContentProps) => {
       // Flush list before other elements
       flushList();
 
+      // Check for images first
+      const imageElement = renderImage(line, index);
+      if (imageElement) {
+        elements.push(imageElement);
+        return;
+      }
+
       // Headings - SitePoint style with clear hierarchy
       if (line.startsWith("### ")) {
         elements.push(
@@ -131,8 +172,8 @@ export const BlogContent = ({ content }: BlogContentProps) => {
         return;
       }
 
-      // Process inline formatting
-      let processedLine = line
+      // Process inline formatting and links
+      let processedLine = processLinks(line)
         // Bold
         .replace(/\*\*([^*]+)\*\*/g, '<strong class="font-semibold text-foreground">$1</strong>')
         // Italic
