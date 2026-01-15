@@ -81,8 +81,8 @@ const BlogPost = () => {
                 <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 mb-8 pb-6 border-b border-border">
                   <div className="flex items-center gap-4">
                     <img
-                      src="/images/profile-picture.jpg"
-                      alt="Prince Fiebor"
+                      src="/lovable-uploads/57a613ff-8ee2-4b8c-9e91-aca0b106aada.png"
+                      alt="AGT Tech"
                       className="w-12 h-12 rounded-full object-cover"
                     />
                     <div>
