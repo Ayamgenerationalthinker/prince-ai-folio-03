@@ -35,6 +35,7 @@ export const BlogContent = ({ content }: BlogContentProps) => {
               alt={alt} 
               className="w-full rounded-lg shadow-md"
               loading="lazy"
+              decoding="async"
             />
             {alt && (
               <figcaption className="text-center text-sm text-muted-foreground mt-3 italic">

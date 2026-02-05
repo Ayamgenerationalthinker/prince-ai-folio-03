@@ -8,6 +8,7 @@ import { ArrowLeft, Calendar } from "lucide-react";
 import { format } from "date-fns";
 import { Skeleton } from "@/components/ui/skeleton";
 import { useEffect } from "react";
+import { SEOHead } from "@/components/SEOHead";
 
 const BlogPost = () => {
   const { id } = useParams<{ id: string }>();
@@ -22,6 +23,15 @@ const BlogPost = () => {
 
   return (
     <div className="min-h-screen bg-background">
+      {post && (
+        <SEOHead
+          title={`${post.title} | Prince Fiebor`}
+          description={post.summary}
+          image={post.image_url || undefined}
+          type="article"
+          publishedTime={post.created_at}
+        />
+      )}
       <Navigation />
       
       <main className="pt-24 pb-16">
@@ -107,6 +117,9 @@ const BlogPost = () => {
                       src={post.image_url}
                       alt={post.title}
                       className="w-full h-full object-cover"
+                      loading="eager"
+                      decoding="async"
+                      fetchPriority="high"
                     />
                   </div>
                 )}
