@@ -96,81 +96,80 @@ export const Contact = () => {
   ];
 
   return (
-    <section id="contact" className="py-20 px-6 bg-muted/20">
+    <section id="contact" className="py-16 px-6 bg-muted/20">
       <div className="container mx-auto max-w-6xl">
         {/* Section Header */}
-        <div className="text-center mb-16">
+        <div className="text-center mb-12">
           <Badge variant="secondary" className="mb-4">
             Get In Touch
           </Badge>
-          <h2 className="text-4xl md:text-5xl font-bold mb-6">
+          <h2 className="text-3xl md:text-4xl font-bold mb-4">
             Let's <span className="text-gradient-animate">Connect</span> & Collaborate
           </h2>
-          <p className="text-xl text-muted-foreground max-w-3xl mx-auto leading-relaxed">
-            Whether you're interested in research collaboration, have a project idea, 
-            or just want to discuss the future of AI—I'd love to hear from you.
+          <p className="text-lg text-muted-foreground max-w-2xl mx-auto leading-relaxed">
+            Interested in research collaboration or have a project idea? Let's talk.
           </p>
         </div>
 
-        <div className="grid lg:grid-cols-3 gap-8">
+        <div className="grid lg:grid-cols-3 gap-6">
           {/* Contact Form */}
           <div className="lg:col-span-2">
-            <Card className="project-card">
-              <CardContent className="p-8">
-                <h3 className="text-2xl font-semibold mb-6">Send me a message</h3>
+            <Card className="project-card h-full">
+              <CardContent className="p-6">
+                <h3 className="text-lg font-semibold mb-4">Send me a message</h3>
                 <form 
                   onSubmit={handleSubmit}
-                  className="space-y-6"
+                  className="space-y-4"
                 >
-                  <div className="grid md:grid-cols-2 gap-4">
-                    <div className="space-y-2">
-                      <Label htmlFor="name">Name</Label>
+                  <div className="grid md:grid-cols-2 gap-3">
+                    <div className="space-y-1">
+                      <Label htmlFor="name" className="text-sm">Name</Label>
                       <Input 
                         id="name" 
                         name="name"
                         placeholder="Your full name" 
-                        className="bg-background/50"
+                        className="bg-background/50 h-9"
                         required
                       />
                     </div>
-                    <div className="space-y-2">
-                      <Label htmlFor="email">Email</Label>
+                    <div className="space-y-1">
+                      <Label htmlFor="email" className="text-sm">Email</Label>
                       <Input 
                         id="email" 
                         name="email"
                         type="email" 
                         placeholder="your.email@example.com" 
-                        className="bg-background/50"
+                        className="bg-background/50 h-9"
                         required
                       />
                     </div>
                   </div>
                   
-                  <div className="space-y-2">
-                    <Label htmlFor="subject">Subject</Label>
+                  <div className="space-y-1">
+                    <Label htmlFor="subject" className="text-sm">Subject</Label>
                     <Input 
                       id="subject" 
                       name="subject"
                       placeholder="What's this about?" 
-                      className="bg-background/50"
+                      className="bg-background/50 h-9"
                       required
                     />
                   </div>
                   
-                  <div className="space-y-2">
-                    <Label htmlFor="message">Message</Label>
+                  <div className="space-y-1">
+                    <Label htmlFor="message" className="text-sm">Message</Label>
                     <Textarea 
                       id="message" 
                       name="message"
-                      placeholder="Tell me about your project, collaboration idea, or question..."
-                      rows={6}
+                      placeholder="Tell me about your project or idea..."
+                      rows={4}
                       className="bg-background/50"
                       required
                     />
                   </div>
                   
-                  <Button type="submit" size="lg" className="w-full glow-effect" disabled={isSubmitting}>
-                    <Send className="w-5 h-5 mr-2" />
+                  <Button type="submit" size="default" className="w-full glow-effect" disabled={isSubmitting}>
+                    <Send className="w-4 h-4 mr-2" />
                     {isSubmitting ? "Sending..." : "Send Message"}
                   </Button>
                 </form>
@@ -179,26 +178,26 @@ export const Contact = () => {
           </div>
 
           {/* Contact Info & Social Links */}
-          <div className="space-y-6 h-fit">
+          <div className="space-y-4">
             {/* Direct Contact */}
-            <Card className="project-card h-full">
-              <CardContent className="p-6">
-                <h3 className="text-xl font-semibold mb-4">Contact Information</h3>
-                <div className="space-y-4">
+            <Card className="project-card">
+              <CardContent className="p-5">
+                <h3 className="text-lg font-semibold mb-3">Contact Info</h3>
+                <div className="space-y-3">
                   {contactInfo.map((info, index) => (
-                    <div key={index} className="flex items-start gap-3">
-                      <info.icon className="w-5 h-5 text-primary mt-0.5" />
+                    <div key={index} className="flex items-start gap-2">
+                      <info.icon className="w-4 h-4 text-primary mt-0.5" />
                       <div>
-                        <p className="font-medium text-sm">{info.label}</p>
+                        <p className="font-medium text-xs">{info.label}</p>
                         {info.href ? (
                           <a 
                             href={info.href} 
-                            className="text-muted-foreground text-sm hover:text-primary transition-colors"
+                            className="text-muted-foreground text-xs hover:text-primary transition-colors"
                           >
                             {info.value}
                           </a>
                         ) : (
-                          <p className="text-muted-foreground text-sm">{info.value}</p>
+                          <p className="text-muted-foreground text-xs">{info.value}</p>
                         )}
                       </div>
                     </div>
@@ -208,23 +207,18 @@ export const Contact = () => {
             </Card>
 
             {/* Social Links */}
-            <Card className="project-card h-full">
-              <CardContent className="p-6">
-                <h3 className="text-xl font-semibold mb-4">Follow My Work</h3>
-                <div className="space-y-4">
+            <Card className="project-card">
+              <CardContent className="p-5">
+                <h3 className="text-lg font-semibold mb-3">Follow My Work</h3>
+                <div className="space-y-2">
                   {socialLinks.map((social, index) => (
                     <a
                       key={index}
                       href={social.url}
-                      className="flex items-start gap-3 p-3 rounded-lg bg-background/30 hover:bg-background/50 transition-colors group"
+                      className="flex items-center gap-2 p-2 rounded-lg bg-background/30 hover:bg-background/50 transition-colors group"
                     >
-                      <social.icon className="w-5 h-5 text-primary mt-0.5 group-hover:scale-110 transition-transform" />
-                      <div>
-                        <p className="font-medium text-sm">{social.name}</p>
-                        <p className="text-muted-foreground text-xs leading-relaxed">
-                          {social.description}
-                        </p>
-                      </div>
+                      <social.icon className="w-4 h-4 text-primary group-hover:scale-110 transition-transform" />
+                      <span className="text-xs font-medium">{social.name}</span>
                     </a>
                   ))}
                 </div>
@@ -232,13 +226,12 @@ export const Contact = () => {
             </Card>
             
             {/* Availability Status */}
-            <Card className="project-card h-full">
-              <CardContent className="p-6 text-center flex flex-col justify-center">
-                <div className="w-3 h-3 bg-green-500 rounded-full mx-auto mb-3 animate-pulse" />
-                <h3 className="font-semibold mb-2">Currently Available</h3>
-                <p className="text-sm text-muted-foreground leading-relaxed">
-                  Open to research collaborations, internship opportunities, 
-                  and meaningful project partnerships.
+            <Card className="project-card">
+              <CardContent className="p-5 text-center">
+                <div className="w-2 h-2 bg-green-500 rounded-full mx-auto mb-2 animate-pulse" />
+                <h3 className="font-semibold text-sm mb-1">Currently Available</h3>
+                <p className="text-xs text-muted-foreground leading-relaxed">
+                  Open to research collaborations and project partnerships.
                 </p>
               </CardContent>
             </Card>
@@ -246,18 +239,17 @@ export const Contact = () => {
         </div>
 
         {/* Call to Action */}
-        <div className="text-center mt-16 p-8 rounded-2xl bg-gradient-primary relative overflow-hidden">
+        <div className="text-center mt-10 p-6 rounded-xl bg-gradient-primary relative overflow-hidden">
           <div className="absolute inset-0 bg-background/10" />
           <div className="relative z-10">
-            <h3 className="text-2xl font-bold text-white mb-4">
-              Ready to build something amazing together?
+            <h3 className="text-xl font-bold text-white mb-2">
+              Ready to build something amazing?
             </h3>
-            <p className="text-white/80 mb-6 max-w-2xl mx-auto">
-              Whether it's research, development, or education—let's explore how we can 
-              create positive impact through technology.
+            <p className="text-white/80 mb-4 text-sm max-w-xl mx-auto">
+              Let's explore how we can create positive impact through technology.
             </p>
-            <Button variant="secondary" size="lg" className="px-8 py-3">
-              <Mail className="w-5 h-5 mr-2" />
+            <Button variant="secondary" size="default">
+              <Mail className="w-4 h-4 mr-2" />
               Start a Conversation
             </Button>
           </div>
