@@ -65,11 +65,21 @@ export const BlogContent = ({ content }: BlogContentProps) => {
             key={elements.length}
             className={`my-6 space-y-3 ${listType === "ul" ? "list-disc" : "list-decimal"} list-outside ml-6`}
           >
-            {listItems.map((item, i) => (
-              <li key={i} className="text-foreground/90 text-lg leading-relaxed pl-2">
-                {item}
-              </li>
-            ))}
+            {listItems.map((item, i) => {
+              // Process links and inline formatting in list items
+              let processedItem = processLinks(item)
+                .replace(/\*\*([^*]+)\*\*/g, '<strong class="font-semibold text-foreground">$1</strong>')
+                .replace(/\*([^*]+)\*/g, '<em>$1</em>')
+                .replace(/`([^`]+)`/g, '<code class="px-1.5 py-0.5 bg-muted rounded text-sm font-mono text-primary">$1</code>');
+              
+              return (
+                <li 
+                  key={i} 
+                  className="text-foreground/90 text-lg leading-relaxed pl-2"
+                  dangerouslySetInnerHTML={{ __html: sanitize(processedItem) }}
+                />
+              );
+            })}
           </ListTag>
         );
         listItems = [];
