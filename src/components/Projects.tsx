@@ -79,69 +79,73 @@ export const Projects = () => {
   };
 
   return (
-    <section id="projects" className="py-20 px-6 bg-muted/20">
+    <section id="projects" className="py-16 px-6 bg-muted/20">
       <div className="container mx-auto max-w-6xl">
         {/* Section Header */}
-        <div className="text-center mb-16">
+        <div className="text-center mb-12">
           <Badge variant="secondary" className="mb-4">
             Projects & Research
           </Badge>
-          <h2 className="text-4xl md:text-5xl font-bold mb-6">
+          <h2 className="text-3xl md:text-4xl font-bold mb-4">
             Building <span className="text-gradient-animate">Tomorrow's</span> Solutions
           </h2>
-          <p className="text-xl text-muted-foreground max-w-3xl mx-auto leading-relaxed">
-            A showcase of my work in AI, software engineering, and research—each project 
-            representing a step toward creating meaningful technological impact.
+          <p className="text-lg text-muted-foreground max-w-2xl mx-auto leading-relaxed">
+            A showcase of my work in AI, software engineering, and research.
           </p>
         </div>
 
         {/* Projects Grid */}
-        <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+        <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
           {projects.map((project, index) => (
             <Card key={index} className="project-card group h-full">
-              <CardHeader className="pb-4">
-                <div className="flex items-start justify-between mb-3">
-                  <div className="w-12 h-12 bg-primary/10 rounded-lg flex items-center justify-center group-hover:bg-primary/20 transition-colors">
-                    <project.icon className="w-6 h-6 text-primary" />
+              <CardHeader className="pb-3">
+                <div className="flex items-start justify-between mb-2">
+                  <div className="w-10 h-10 bg-primary/10 rounded-lg flex items-center justify-center group-hover:bg-primary/20 transition-colors">
+                    <project.icon className="w-5 h-5 text-primary" />
                   </div>
                   <Badge 
                     variant="outline" 
-                    className={getStatusColor(project.status)}
+                    className={`text-xs ${getStatusColor(project.status)}`}
                   >
                     {project.status}
                   </Badge>
                 </div>
-                <CardTitle className="text-xl mb-2">{project.title}</CardTitle>
-                <Badge variant="secondary" className="w-fit mb-3">
+                <CardTitle className="text-lg mb-1">{project.title}</CardTitle>
+                <Badge variant="secondary" className="w-fit text-xs">
                   {project.category}
                 </Badge>
               </CardHeader>
               
-              <CardContent className="flex flex-col flex-grow">
-                <p className="text-muted-foreground leading-relaxed mb-4 flex-grow">
+              <CardContent className="flex flex-col flex-grow pt-0">
+                <p className="text-sm text-muted-foreground leading-relaxed mb-3 flex-grow line-clamp-3">
                   {project.description}
                 </p>
                 
                 {/* Tech Stack */}
-                <div className="flex flex-wrap gap-2 mb-6">
-                  {project.tags.map((tag, tagIndex) => (
-                    <Badge key={tagIndex} variant="outline" className="text-xs">
+                <div className="flex flex-wrap gap-1.5 mb-4">
+                  {project.tags.slice(0, 3).map((tag, tagIndex) => (
+                    <Badge key={tagIndex} variant="outline" className="text-xs px-2 py-0">
                       {tag}
                     </Badge>
                   ))}
+                  {project.tags.length > 3 && (
+                    <Badge variant="outline" className="text-xs px-2 py-0">
+                      +{project.tags.length - 3}
+                    </Badge>
+                  )}
                 </div>
                 
-                 {/* Action Buttons */}
+                {/* Action Buttons */}
                 <div className="flex gap-2 mt-auto">
                   {project.links.github && project.links.github !== "#" && (
-                    <Button variant="outline" size="sm" className="flex-1" onClick={() => window.open(project.links.github, '_blank')}>
-                      <Github className="w-4 h-4 mr-2" />
+                    <Button variant="outline" size="sm" className="flex-1 h-8 text-xs" onClick={() => window.open(project.links.github, '_blank')}>
+                      <Github className="w-3 h-3 mr-1" />
                       Code
                     </Button>
                   )}
                   {project.links.demo && project.links.demo !== "#" && (
-                    <Button variant="outline" size="sm" className="flex-1" onClick={() => window.open(project.links.demo, '_blank')}>
-                      <ExternalLink className="w-4 h-4 mr-2" />
+                    <Button variant="outline" size="sm" className="flex-1 h-8 text-xs" onClick={() => window.open(project.links.demo, '_blank')}>
+                      <ExternalLink className="w-3 h-3 mr-1" />
                       Demo
                     </Button>
                   )}
@@ -152,13 +156,10 @@ export const Projects = () => {
         </div>
 
         {/* Call to Action */}
-        <div className="text-center mt-16">
-          <p className="text-muted-foreground mb-6">
-            Interested in collaborating or learning more about my work?
-          </p>
-          <Button size="lg" className="px-8 py-3 glow-effect" onClick={() => window.open('https://github.com/Ayamgenerationalthinker', '_blank')}>
-            <Github className="w-5 h-5 mr-2" />
-            View All Projects on GitHub
+        <div className="text-center mt-10">
+          <Button size="default" className="glow-effect" onClick={() => window.open('https://github.com/Ayamgenerationalthinker', '_blank')}>
+            <Github className="w-4 h-4 mr-2" />
+            View All on GitHub
           </Button>
         </div>
       </div>
