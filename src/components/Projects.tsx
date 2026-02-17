@@ -1,7 +1,7 @@
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
-import { ExternalLink, Github, Brain, Database, Users, TrendingUp } from "lucide-react";
+import { ExternalLink, Github, Brain, Database, Users, TrendingUp, Code } from "lucide-react";
 
 export const Projects = () => {
   const projects = [
@@ -62,6 +62,18 @@ export const Projects = () => {
       status: "Live",
       links: {
         demo: "https://agt-tech-qyn4.vercel.app/",
+        github: "#"
+      }
+    },
+    {
+      title: "Python Mastery",
+      description: "Complete Python developer course featuring 33 topics and 330+ practice problems. An interactive platform for mastering Python programming from fundamentals to advanced concepts.",
+      icon: Code,
+      tags: ["Python", "Education", "React", "Interactive Learning"],
+      category: "Education Platform",
+      status: "Live",
+      links: {
+        demo: "https://python-mastery-sigma.vercel.app/",
         github: "#"
       }
     }
