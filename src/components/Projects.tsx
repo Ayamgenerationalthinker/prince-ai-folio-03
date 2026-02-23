@@ -42,7 +42,7 @@ export const Projects = () => {
           description: "Comprehensive health and wellness platform providing personalized wellness tracking and community support.",
           icon: Users,
           tags: ["React", "Node.js", "Health Tech", "MongoDB"],
-          status: "In Development",
+          status: "Live",
           links: { demo: "https://www.mahoganyshealthwellness.com/" }
         },
         {
