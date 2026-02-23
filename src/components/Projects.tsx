@@ -43,7 +43,7 @@ export const Projects = () => {
           icon: Users,
           tags: ["React", "Node.js", "Health Tech", "MongoDB"],
           status: "In Development",
-          links: { demo: "https://github.com/Ayamgenerationalthinker/mahogany-wellness-pathways" }
+          links: { demo: "https://www.mahoganyshealthwellness.com/" }
         },
         {
           title: "AGT TECH - AI Education Platform",
