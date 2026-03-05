@@ -71,6 +71,10 @@ export const SEOHead = ({
     // Cleanup function to restore original meta tags
     return () => {
       document.title = "Prince Fiebor | Computer Scientist & AI Enthusiast";
+      // Restore default OG image
+      const defaultImage = `${window.location.origin}/images/og-portfolio.png`;
+      setMetaTag("og:image", defaultImage);
+      setMetaTag("twitter:image", defaultImage, false);
     };
   }, [title, description, image, type, publishedTime, author]);
 
