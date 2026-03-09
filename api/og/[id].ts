@@ -26,9 +26,17 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
 
   const siteUrl = "https://prince-ai-folio-03.lovable.app";
 
-  // If not a bot, serve the SPA index.html
+  // If not a bot, serve the SPA
   if (!isBot) {
-    return res.redirect(302, `${siteUrl}/index.html#/blog/${id}`);
+    // Fetch and serve the index.html so the SPA handles routing
+    try {
+      const indexRes = await fetch(`${siteUrl}/index.html`);
+      const indexHtml = await indexRes.text();
+      res.setHeader("Content-Type", "text/html; charset=utf-8");
+      return res.status(200).send(indexHtml);
+    } catch {
+      return res.redirect(302, siteUrl);
+    }
   }
 
   try {
