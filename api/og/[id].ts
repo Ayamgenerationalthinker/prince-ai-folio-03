@@ -26,16 +26,26 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
 
   const siteUrl = "https://prince-ai-folio-03.lovable.app";
 
-  // If not a bot, serve the SPA
+  // If not a bot, let Vercel serve the SPA index.html
   if (!isBot) {
-    // Fetch and serve the index.html so the SPA handles routing
+    // Read and serve the built index.html so client-side routing works
+    const { readFileSync } = await import("fs");
+    const { join } = await import("path");
     try {
-      const indexRes = await fetch(`${siteUrl}/index.html`);
-      const indexHtml = await indexRes.text();
+      const indexPath = join(process.cwd(), "dist", "index.html");
+      const indexHtml = readFileSync(indexPath, "utf-8");
       res.setHeader("Content-Type", "text/html; charset=utf-8");
       return res.status(200).send(indexHtml);
     } catch {
-      return res.redirect(302, siteUrl);
+      // Fallback: try public directory (Vercel output)
+      try {
+        const indexPath = join(process.cwd(), ".vercel", "output", "static", "index.html");
+        const indexHtml = readFileSync(indexPath, "utf-8");
+        res.setHeader("Content-Type", "text/html; charset=utf-8");
+        return res.status(200).send(indexHtml);
+      } catch {
+        return res.redirect(302, "/");
+      }
     }
   }
 
