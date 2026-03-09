@@ -4,11 +4,31 @@ const SUPABASE_URL = "https://jdlceymfolzxxkgkyhpt.supabase.co";
 const SUPABASE_ANON_KEY =
   "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImpkbGNleW1mb2x6eHhrZ2t5aHB0Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3Njc5MzY3MTQsImV4cCI6MjA4MzUxMjcxNH0.CaeITgNnOKUOrxXKcjhqs1gA1ZUqMAVUSb6AVdm2MBI";
 
+const BOT_USER_AGENTS = [
+  "facebookexternalhit", "Facebot", "Twitterbot", "LinkedInBot",
+  "WhatsApp", "Slackbot", "TelegramBot", "Discordbot", "Googlebot",
+  "bingbot", "Baiduspider", "DuckDuckBot", "Embedly", "Pinterest",
+  "vkShare", "redditbot", "Applebot", "SkypeUriPreview",
+];
+
 export default async function handler(req: VercelRequest, res: VercelResponse) {
   const { id } = req.query;
 
   if (!id || typeof id !== "string") {
     return res.redirect(302, "/blog");
+  }
+
+  // Check if request is from a bot
+  const userAgent = req.headers["user-agent"] || "";
+  const isBot = BOT_USER_AGENTS.some((bot) =>
+    userAgent.toLowerCase().includes(bot.toLowerCase())
+  );
+
+  const siteUrl = "https://prince-ai-folio-03.lovable.app";
+
+  // If not a bot, serve the SPA index.html
+  if (!isBot) {
+    return res.redirect(302, `${siteUrl}/index.html#/blog/${id}`);
   }
 
   try {
@@ -29,7 +49,6 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
       return res.redirect(302, "/blog");
     }
 
-    const siteUrl = `https://prince-ai-folio-03.lovable.app`;
     const pageUrl = `${siteUrl}/blog/${id}`;
     const imageUrl = post.image_url?.startsWith("http")
       ? post.image_url
